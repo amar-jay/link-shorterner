@@ -21,6 +21,10 @@ const getUrl = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!data || data?.url === null) {
     res.statusCode = 404;
+
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Cache-Control", "s-maxage=10000, stale-while-revalidate");
     res.send(JSON.stringify({ message: "Link not found" }));
 
     return;

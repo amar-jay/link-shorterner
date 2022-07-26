@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { __prod } from "../utils/consts";
 
 declare global {
   var prisma: PrismaClient | undefined;
@@ -10,4 +11,4 @@ export const prisma =
     log: ["query"],
   });
 
-if (process.env.NODE_ENV !== "production") global.prisma = prisma;
+if (!__prod) global.prisma = prisma;

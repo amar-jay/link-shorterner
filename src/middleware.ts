@@ -8,6 +8,7 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     return NextResponse.redirect(req.nextUrl.origin);
   }
   const data = await slugFetch.json();
+  console.log("from middleware:\n", JSON.stringify(slug));
 
   if (data?.url) {
     return NextResponse.redirect(data.url);

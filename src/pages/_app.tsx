@@ -5,7 +5,7 @@ import { withTRPC } from "@trpc/next";
 import { AppRouter } from "./api/trpc/[trpc]";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className="dark:bg-slate-700 m-0 relative max-h-screen">
+    <div className="relative max-h-screen m-0 dark:bg-slate-700">
       <Component {...pageProps} />
       <Footer />
     </div>
@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 
 function getBaseUrl() {
-  if (process.browser) return ""; // Browser should use current path
+  // if (process.browser) return ""; // Browser should use current path
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
 
   return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
@@ -27,5 +27,5 @@ export default withTRPC<AppRouter>({
       url,
     };
   },
-  ssr: false,
+  ssr: true
 })(MyApp);

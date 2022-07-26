@@ -23,9 +23,7 @@ const CreateLinkForm: NextPage = () => {
   });
   const createSlug = trpc.useMutation(["createSlug"]);
 
-  // const input =
-  //   "text-black my-1 p-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-pink-500 focus:ring-pink-500 block w-full rounded-md sm:text-sm focus:ring-1";
-
+  // TODO: use debounce to prevent spamming the server
   // const slugInput = classNames(input, {
   //   "border-red-500": slugCheck.isFetched && slugCheck.data!.used,
   //   "text-red-500": slugCheck.isFetched && slugCheck.data!.used,
@@ -72,7 +70,7 @@ const CreateLinkForm: NextPage = () => {
           Slug already in use.
         </span>
       )}
-      <div className="flex items-center">
+      <div className="flex items-center mb-3">
         <span className="font-medium mr-2">{url}/</span>
         <input
           type="text"
@@ -81,11 +79,11 @@ const CreateLinkForm: NextPage = () => {
               ...form,
               slug: e.target.value,
             });
-            // debounce(slugCheck.refetch, 100);
+            debounce(slugCheck.refetch, 100);
           }}
           minLength={1}
           placeholder="rothaniel"
-          // className={slugInput}
+          className="p-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md sm:text-sm focus:ring-1"
           value={form.slug}
           pattern={"^[-a-zA-Z0-9]+$"}
           title="Only alphanumeric characters and hypens are allowed. No spaces."
@@ -106,12 +104,12 @@ const CreateLinkForm: NextPage = () => {
         />
       </div>
       <div className="flex items-center">
-        <span className="font-medium mr-2">Link</span>
+        <span className="font-lg mr-2 text-blue-500">Link</span>
         <input
           type="url"
           onChange={(e) => setForm({ ...form, url: e.target.value })}
           placeholder="https://google.com"
-          // className={input}
+          className="p-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md sm:text-sm focus:ring-1"
           required
         />
       </div>

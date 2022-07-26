@@ -3,7 +3,7 @@ import { useState } from "react";
 import classNames from "classnames";
 import { nanoid } from "nanoid";
 import debounce from "lodash/debounce";
-// import { trpc } from "../../utils/trpc";
+import { trpc, __prod } from "../utils/consts";
 import copy from "copy-to-clipboard";
 
 type Form = {
@@ -14,14 +14,14 @@ type Form = {
 const CreateLinkForm: NextPage = () => {
   const [form, setForm] = useState<Form>({ slug: "", url: "" });
   // const url = window.location.origin;
-  const url = "https://links.themanan.com";
+  const url = __prod ? "https://links.themanan.com" : "http://localhost:3000";
 
-  // const slugCheck = trpc.useQuery(["slugCheck", { slug: form.slug }], {
-  //   refetchOnReconnect: false, // replacement for enable: false which isn't respected.
-  //   refetchOnMount: false,
-  //   refetchOnWindowFocus: false,
-  // });
-  // const createSlug = trpc.useMutation(["createSlug"]);
+  const slugCheck = trpc.useQuery(["checkSlug", { slug: form.slug }], {
+    refetchOnReconnect: false, // replacement for enable: false which isn't respected.
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
+  const createSlug = trpc.useMutation(["createSlug"]);
 
   // const input =
   //   "text-black my-1 p-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-pink-500 focus:ring-pink-500 block w-full rounded-md sm:text-sm focus:ring-1";
@@ -31,8 +31,8 @@ const CreateLinkForm: NextPage = () => {
   //   "text-red-500": slugCheck.isFetched && slugCheck.data!.used,
   // });
 
-  // if ( createSlug.status === "success") {
-  if (true) {
+  if (createSlug.status === "success") {
+    // if (true) {
     return (
       <>
         <div className="flex justify-center items-center dark:bg-slate-600 bg-slate-300 py-3 px-6 rounded-md">
@@ -51,7 +51,7 @@ const CreateLinkForm: NextPage = () => {
           value="Reset"
           className="rounded bg-blue-300 py-2 px-5 font-bold cursor-pointer ml-2 text-white dark:bg-blue-500 hover:shadow-2xl transition-all duration-200 "
           onClick={() => {
-            // createSlug.reset();
+            createSlug.reset();
             setForm({ slug: "", url: "" });
           }}
         />
@@ -63,15 +63,15 @@ const CreateLinkForm: NextPage = () => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        // createSlug.mutate({ ...form });
+        createSlug.mutate({ ...form });
       }}
       className="flex flex-col justify-center sm:w-2/3 md:w-1/2 lg:w-1/3"
     >
-      {/* {slugCheck.data?.used && (
-        <span className="font-medium mr-2 text-center text-red-500">
+      {slugCheck.data?.used && (
+        <span className="font-medium mb-2 text-center text-red-500">
           Slug already in use.
         </span>
-      )} */}
+      )}
       <div className="flex items-center">
         <span className="font-medium mr-2">{url}/</span>
         <input
@@ -101,7 +101,7 @@ const CreateLinkForm: NextPage = () => {
               ...form,
               slug,
             });
-            // slugCheck.refetch();
+            slugCheck.refetch();
           }}
         />
       </div>
@@ -119,7 +119,7 @@ const CreateLinkForm: NextPage = () => {
         type="submit"
         value="Create"
         className="rounded bg-blue-300 py-3 font-bold cursor-pointer mt-6 dark:bg-blue-500"
-        // disabled={slugCheck.isFetched && slugCheck.data!.used}
+        disabled={slugCheck.isFetched && slugCheck.data!.used}
       />
     </form>
   );

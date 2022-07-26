@@ -1,11 +1,11 @@
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { z } from "zod";
-import { prisma } from "../../../db/client";
+import { prisma } from "../../../db/prisma";
 
 export const appRouter = trpc
   .router()
-  .query("slugCheck", {
+  .query("checkSlug", {
     input: z.object({
       slug: z.string(),
     }),
@@ -32,7 +32,7 @@ export const appRouter = trpc
           },
         });
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     },
   });

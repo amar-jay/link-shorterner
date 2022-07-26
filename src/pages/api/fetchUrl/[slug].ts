@@ -6,7 +6,12 @@ const getUrl = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!slug || typeof slug !== "string") {
     res.statusCode = 404;
-    res.send(JSON.stringify({ message: "slug is undefined" }));
+    res.send(
+      JSON.stringify({
+        message: "slug is undefined",
+        errorCode: res.statusCode,
+      })
+    );
 
     return;
   }
@@ -14,7 +19,7 @@ const getUrl = async (req: NextApiRequest, res: NextApiResponse) => {
   const data = await prisma.shortLink.findFirst({
     where: {
       slug: {
-        equals: slug!,
+        equals: slug,
       },
     },
   })!;
@@ -22,14 +27,14 @@ const getUrl = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!data || data?.url === null) {
     res.statusCode = 404;
 
-    res.setHeader("Content-Type", "application/json");
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Cache-Control", "s-maxage=10000, stale-while-revalidate");
-    res.send(JSON.stringify({ message: "Link not found" }));
+    res.send(JSON.stringify({ message: "Link not found", errorCode: "404" }));
 
     return;
   }
 
+  res.setHeader("Content-Type", "application/json");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Cache-Control", "s-maxage=100, stale-while-revalidate");
   return res.json({ data });
 };
 

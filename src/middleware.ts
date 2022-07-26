@@ -5,14 +5,14 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
 
   const slugFetch = await fetch(`${req.nextUrl.origin}/api/fetchUrl/${slug}`);
   if (slugFetch.status === 404) {
-    return NextResponse.redirect(req.nextUrl.origin);
+    return NextResponse.redirect(`${req.nextUrl.origin}/error/404`);
   }
-  const data = await slugFetch.json();
-  console.log("from middleware:\n", JSON.stringify(slug));
+  const { data } = await slugFetch.json();
 
   if (data?.url) {
     return NextResponse.redirect(data.url);
   }
+  return NextResponse.redirect(`${req.nextUrl.origin}/error/404`);
 }
 
 export const config = {

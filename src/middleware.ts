@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest, _: NextFetchEvent) {
   if (data?.url) {
     return NextResponse.redirect(data.url);
   }
-  return NextResponse.redirect(`${req.nextUrl.origin}/error/404`);
+//  return NextResponse.redirect(`${req.nextUrl.origin}/error/404`);
 }
 
 export const config = {

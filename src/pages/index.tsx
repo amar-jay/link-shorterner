@@ -1,6 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import LinkContainer from "../components/LinkContainer";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+
+const LinkContainer = dynamic(() => import("../components/LinkContainer"), {
+  ssr: false,
+});
 
 const Home: NextPage = () => {
   return (
@@ -20,7 +25,9 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="items-center justify-evenly flex h-[90vh] flex-col">
-        <LinkContainer />
+        <Suspense>
+          <LinkContainer />
+        </Suspense>
         <h1 className="text-2xl font-bold text-blue-800 underline dark:text-blue-500">
           Shortern your link with ease
         </h1>

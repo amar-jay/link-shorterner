@@ -1,8 +1,10 @@
 import type { AppProps } from "next/app";
+import { __prod } from "../utils/consts";
 import "../styles/globals.css";
 import { Footer } from "../components/Footer";
 import { withTRPC } from "@trpc/next";
 import { AppRouter } from "./api/trpc/[trpc]";
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div className="relative max-h-screen m-0 dark:bg-slate-700">
@@ -14,9 +16,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 function getBaseUrl() {
   // if (process.browser) return ""; // Browser should use current path
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
 
-  return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
+  return __prod
+    ? "https://themanan.me"
+    : `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
 }
 
 export default withTRPC<AppRouter>({

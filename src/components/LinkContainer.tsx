@@ -83,7 +83,7 @@ const CreateLinkForm: NextPage = () => {
             debounce(slugCheck.refetch, 100);
           }}
           minLength={1}
-          placeholder="rothaniel"
+          placeholder="slug"
           className="block w-full p-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-blue-500 rounded-md sm:text-sm focus:ring-1"
           value={form.slug}
           pattern={"^[-a-zA-Z0-9]+$"}

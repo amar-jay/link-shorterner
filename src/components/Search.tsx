@@ -11,10 +11,10 @@ type Form = {
   url: string;
 };
 
-const InputBox:React.ReactNode<{state: string}> = ({state}) => {
+const InputBox = ({state}: {state: any}) => {
   return <>
     <h1 className="font-extrabold my-4 text-xl text-slate-300"> Search a slug</h1>
-    <input type="text" value="slug" value={state[0].link} onChange={(e) => state[1]({link:e.target.value})} className="block w-lg p-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-blue-500 rounded-md sm:text-sm focus:ring-1"
+    <input type="text" placeholder="slug" value={state[0]?.link ?? ""} onChange={(e) => state[1]({link:e.target.value})} className="block w-lg p-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-blue-500 rounded-md sm:text-sm focus:ring-1"
 />
   </>
 }
@@ -36,18 +36,6 @@ const FetchAlllinks  = () => {
   });
 
 
-
-  if (fetchALink.status !== "success" && fetchALink.data?.exists) {
-    // if (true) {
-    return (
-      <>
-        <InputBox state={searchItem}/>
-        <div className="flex items-center justify-center px-6 py-3 dark:bg-slate-600 bg-slate-300 rounded-md">
-        <span className="font-bold text-red-500 mr-2">404 |</span> Not Found
-       </div>
-       </>
-    );
-  }
 
   return (
     <>

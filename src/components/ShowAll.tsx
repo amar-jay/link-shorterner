@@ -33,8 +33,8 @@ const ShowAll  = ({data}) => {
           <th>Slug</th>
           <th>URL</th>
         </tr>
-            {data?.links.map(e => (
-          <tr className="py-4 border-y-3">
+            {data?.links.map((e, key) => (
+          <tr className="py-4 border-y-3" key={key}>
             <th className="text-slate-900">{e.slug}</th>
             <td className="py-4 px-2 w-28 rounded-md"><a href={e.url}>{e.url}</a></td>
             </tr>
@@ -44,26 +44,4 @@ const ShowAll  = ({data}) => {
   );
 };
 
-export async function getServerSideProps(context) {
-  const data = await res.json()
-
-  const fetchAllLinks = trpc.useQuery(["allLinks"], {
-    refetchOnReconnect: false, // replacement for enable: false which isn't respected.
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
-
-  if (!fetchAllLinks.status !== "success") {
-    return {
-      redirect: {
-        destination: '/error/404',
-        permanent: false,
-      },
-    }
-  }
-
-  return {
-    props: {data: {}}, // will be passed to the page component as props
-  }
-}
 export default ShowAll

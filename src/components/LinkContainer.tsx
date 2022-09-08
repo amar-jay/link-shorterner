@@ -93,7 +93,7 @@ const CreateLinkForm: NextPage = () => {
         <button
           className="btn ml-5"
           onClick={() => {
-            const slug = nanoid().slice(0,10);
+            const slug = nanoid().slice(0, 10);
             setForm({
               ...form,
               slug,
@@ -116,7 +116,7 @@ const CreateLinkForm: NextPage = () => {
         type="submit"
         value="Create"
         className="btn py-3 mt-6 font-bold bg-blue-300 rounded cursor-pointer dark:bg-blue-500"
-        disabled={slugCheck.isFetched && slugCheck.data!.used}
+        disabled={slugCheck.isFetched && slugCheck.data?.used}
       />
     </form>
   );

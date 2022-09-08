@@ -1,19 +1,9 @@
 import React from 'react'
-
-
-
-import type { NextPage } from "next";
 import { useState } from "react";
-import classNames from "classnames";
-import { nanoid } from "nanoid";
-import debounce from "lodash/debounce";
+
 import { trpc, __prod } from "../utils/consts";
-import copy from "copy-to-clipboard";
 
 const ShowAll: React.FC<{}> = () => {
-  const searchItem = useState<{ link: string }>({ link: "" })
-  // const url = window.location.origin;
-  const url = __prod ? "https://links.themanan.me" : "http://localhost:3000";
 
   const { data } = trpc.useQuery(["allLinks"], {
     refetchOnReconnect: false, // replacement for enable: false which isn't respected.
@@ -28,8 +18,10 @@ const ShowAll: React.FC<{}> = () => {
           <th>Slug</th>
           <th>URL</th>
         </tr>
+
         {data?.links.map((e, key) => (
           <tr className="py-4 border-y-3" key={key}>
+
             <th className="text-slate-900">{e.slug}</th>
             <td className="py-4 px-2 w-28 rounded-md"><a href={e.url ?? ""}>{e.url}</a></td>
           </tr>
@@ -38,5 +30,6 @@ const ShowAll: React.FC<{}> = () => {
     </div>
   );
 };
+
 
 export default ShowAll

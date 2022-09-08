@@ -16,24 +16,18 @@ const InputBox = ({ state }: { state: any }) => {
     <h1 className="font-extrabold my-4 text-xl text-slate-300"> Search a slug</h1>
     <input type="text" placeholder="slug" value={state[0]?.link ?? ""} onChange={(e) => state[1]({ link: e.target.value })} className="block w-lg p-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-blue-500 rounded-md sm:text-sm focus:ring-1"
     />
+
   </>
 }
 const FetchAlllinks = () => {
   const searchItem = useState<{ link: string }>({ link: "" })
-  const [form, setForm] = useState<Form>({ slug: "", url: "" });
-  // const url = window.location.origin;
-  const url = __prod ? "https://links.themanan.me" : "http://localhost:3000";
 
-  const fetchAllLinks = trpc.useQuery(["allLinks"], {
-    refetchOnReconnect: false, // replacement for enable: false which isn't respected.
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
   const fetchALink = trpc.useQuery(["aLink", { slug: searchItem[0].link }], {
     refetchOnReconnect: false, // replacement for enable: false which isn't respected.
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
+
 
 
 

@@ -18,6 +18,19 @@ export const appRouter = trpc
       return { used: count > 0 };
     },
   })
+  .query("aLink", {
+    input: z.object({
+      slug: z.string(),
+    }),
+    async resolve ({ input }) {
+      const aLink = await prisma.shortLink.findUnique({
+        where: {
+          slug: input.slug
+        }
+      })
+      return { exist: !!aLink, aLink }
+    }
+  })
   .mutation("createSlug", {
     input: z.object({
       slug: z.string(),

@@ -1,4 +1,6 @@
 import type { NextPage } from "next";
+import {useState} from 'react';
+import {useRouter} from 'next/router';
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
@@ -7,7 +9,13 @@ const LinkContainer = dynamic(() => import("../components/LinkContainer"), {
   ssr: false,
 });
 
+const AllLinksContainer = dynamic(() => import("../components/Alllinks"), {
+  ssr: false,
+});
+
+
 const Home: NextPage = () => {
+  const [page, setPage] = useState('index')
   return (
     <div className="flex flex-col flex-grow p-0 m-0 dark:bg-slate-700">
       <Head>
@@ -25,12 +33,21 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="items-center justify-evenly flex h-[90vh] flex-col">
+        {page === 'index'? 
+          <>
         <Suspense>
           <LinkContainer />
         </Suspense>
-        <h1 className="text-2xl font-bold text-blue-800 underline dark:text-blue-500">
-          Shortern your link with ease
-        </h1>
+          <button onClick={()=>setPage('allLinks')}  className="btn">Show all Links</button>
+        </>
+          :
+          <>
+          <Suspense>
+            <AllLinksContainer/>
+          </Suspense>
+          <button onClick={()=>setPage('index')} className="btn">Create Link</button>
+          </>
+      }
       </main>
     </div>
   );

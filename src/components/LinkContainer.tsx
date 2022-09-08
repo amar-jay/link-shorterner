@@ -90,19 +90,17 @@ const CreateLinkForm: NextPage = () => {
           title="Only alphanumeric characters and hypens are allowed. No spaces."
           required
         />
-        <input
-          type="button"
-          value="Random"
-          className="p-1 ml-5 font-bold text-white bg-blue-300 rounded cursor-pointer dark:bg-blue-500 "
+        <button
+          className="btn ml-5"
           onClick={() => {
-            const slug = nanoid();
+            const slug = nanoid().slice(0,10);
             setForm({
               ...form,
               slug,
             });
             slugCheck.refetch();
           }}
-        />
+        >Random</button>
       </div>
       <div className="flex items-center">
         <span className="mr-2 text-blue-500 font-lg">Link</span>
@@ -117,7 +115,7 @@ const CreateLinkForm: NextPage = () => {
       <input
         type="submit"
         value="Create"
-        className="py-3 mt-6 font-bold bg-blue-300 rounded cursor-pointer dark:bg-blue-500"
+        className="btn py-3 mt-6 font-bold bg-blue-300 rounded cursor-pointer dark:bg-blue-500"
         disabled={slugCheck.isFetched && slugCheck.data!.used}
       />
     </form>

@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import {useState} from 'react';
-import {useRouter} from 'next/router';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
@@ -9,7 +9,7 @@ const LinkContainer = dynamic(() => import("../components/LinkContainer"), {
   ssr: false,
 });
 
-const AllLinksContainer = dynamic(() => import("../components/ShowAll.tsx"), {
+const AllLinksContainer = dynamic(() => import("../components/ShowAll"), {
   ssr: false,
 });
 
@@ -19,13 +19,13 @@ const SearchContainer = dynamic(() => import("../components/Search"), {
 
 const Home: NextPage = () => {
   const [page, setPage] = useState('index')
-const ButtonSet = () => (
-  <div className="mt-12">
-    <button onClick={()=>setPage('index')}  className="btn mr-4">Create a Link</button>
-    <button onClick={()=>setPage('allLinks')}  className="btn mr-4">Show all Links</button>
-    <button onClick={()=>setPage('search')}  className="btn mr-4">Search</button>
-  </div>
-)
+  const ButtonSet = () => (
+    <div className="mt-12">
+      <button onClick={() => setPage('index')} className="btn mr-4">Create a Link</button>
+      <button onClick={() => setPage('allLinks')} className="btn mr-4">Show all Links</button>
+      <button onClick={() => setPage('search')} className="btn mr-4">Search</button>
+    </div>
+  )
   return (
     <div className="flex flex-col overflow-y-scroll h-screen flex-grow px-12 md:p-0 m-0 dark:bg-slate-700">
       <Head>
@@ -45,29 +45,29 @@ const ButtonSet = () => (
       <main className="items-center justify-evenly flex flex-1 flex-col">
         {page === 'index' &&
           <>
-        <Suspense>
-          <LinkContainer />
-        </Suspense>
-              <ButtonSet/>
-        </>
+            <Suspense>
+              <LinkContainer />
+            </Suspense>
+            <ButtonSet />
+          </>
         }
-        { page === 'allLinks' &&
+        {page === 'allLinks' &&
           <>
-              <ButtonSet/>
-          <Suspense>
-            <AllLinksContainer/>
-          </Suspense>
+            <ButtonSet />
+            <Suspense>
+              <AllLinksContainer />
+            </Suspense>
           </>
-      }
-        { page === 'search' &&
+        }
+        {page === 'search' &&
           <>
-          <Suspense>
-            <SearchContainer/>
-          </Suspense>
-              <ButtonSet/>
+            <Suspense>
+              <SearchContainer />
+            </Suspense>
+            <ButtonSet />
           </>
-      }
- 
+        }
+
       </main>
     </div>
   );

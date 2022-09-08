@@ -7,7 +7,7 @@ import { AppRouter } from "./api/trpc/[trpc]";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className="relative max-h-screen m-0 dark:bg-slate-700">
+    <div className="relative h-screen m-0 dark:bg-slate-700">
       <Component {...pageProps} />
       <Footer />
     </div>

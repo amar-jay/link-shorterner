@@ -5,6 +5,13 @@ import { prisma } from "../../../db/prisma";
 
 export const appRouter = trpc
   .router()
+  .query("allLinks", {
+    async resolve({input}) {
+      const links = await prisma.shortLink.findMany()
+
+      return {links}
+    }
+  })
   .query("checkSlug", {
     input: z.object({
       slug: z.string(),

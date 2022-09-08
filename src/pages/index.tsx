@@ -9,15 +9,25 @@ const LinkContainer = dynamic(() => import("../components/LinkContainer"), {
   ssr: false,
 });
 
-const AllLinksContainer = dynamic(() => import("../components/Alllinks"), {
+const AllLinksContainer = dynamic(() => import("../components/ShowAll.tsx"), {
   ssr: false,
 });
 
+const SearchContainer = dynamic(() => import("../components/Search"), {
+  ssr: false,
+});
 
 const Home: NextPage = () => {
   const [page, setPage] = useState('index')
+const ButtonSet = () => (
+  <div className="mt-12">
+    <button onClick={()=>setPage('index')}  className="btn mr-4">Create a Link</button>
+    <button onClick={()=>setPage('allLinks')}  className="btn mr-4">Show all Links</button>
+    <button onClick={()=>setPage('search')}  className="btn mr-4">Search</button>
+  </div>
+)
   return (
-    <div className="flex flex-col flex-grow p-0 m-0 dark:bg-slate-700">
+    <div className="flex flex-col overflow-y-scroll h-screen flex-grow px-12 md:p-0 m-0 dark:bg-slate-700">
       <Head>
         <title>Link Shorterner</title>
         <meta name="description" content="A link shorterner generator app" />
@@ -32,22 +42,32 @@ const Home: NextPage = () => {
         <meta property="og:type" content="website" />
       </Head>
 
-      <main className="items-center justify-evenly flex h-[90vh] flex-col">
-        {page === 'index'? 
+      <main className="items-center justify-evenly flex flex-1 flex-col">
+        {page === 'index' &&
           <>
         <Suspense>
           <LinkContainer />
         </Suspense>
-          <button onClick={()=>setPage('allLinks')}  className="btn">Show all Links</button>
+              <ButtonSet/>
         </>
-          :
+        }
+        { page === 'allLinks' &&
           <>
+              <ButtonSet/>
           <Suspense>
             <AllLinksContainer/>
           </Suspense>
-          <button onClick={()=>setPage('index')} className="btn">Create Link</button>
           </>
       }
+        { page === 'search' &&
+          <>
+          <Suspense>
+            <SearchContainer/>
+          </Suspense>
+              <ButtonSet/>
+          </>
+      }
+ 
       </main>
     </div>
   );

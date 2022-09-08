@@ -17,9 +17,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 function getBaseUrl() {
   // if (process.browser) return ""; // Browser should use current path
 
-  return __prod
-    ? "https://themanan.me"
-    : `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
+  // return __prod
+  //   ? "https://themanan.me"
+  //   : `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
+
+  return "https://links.themanan.me"
 }
 
 export default withTRPC<AppRouter>({
